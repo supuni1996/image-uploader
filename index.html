@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Pictures</title>
+</head>
+<body>
+    <h1>Upload Pictures</h1>
+    <input type="file" id="uploadInput" />
+    <button onclick="uploadPicture()">Upload</button>
+
+    <script>
+        function uploadPicture() {
+            const fileInput = document.getElementById('uploadInput');
+            const file = fileInput.files[0];
+
+            if (file) {
+                // Read the file as a data URL
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    // Store the base64-encoded image in localStorage
+                    const base64Image = e.target.result;
+                    const pictures = JSON.parse(localStorage.getItem('uploadedPictures')) || [];
+                    pictures.push(base64Image);
+                    localStorage.setItem('uploadedPictures', JSON.stringify(pictures));
+
+                    alert('Picture uploaded!');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please select a file.');
+            }
+        }
+    </script>
+</body>
+</html>
